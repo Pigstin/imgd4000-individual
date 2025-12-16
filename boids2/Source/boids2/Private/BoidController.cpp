@@ -64,12 +64,13 @@ void ABoidController::moveBoids(float deltaTime) {
 
 
 		vel += this->BoidRule1(i) + this->BoidRule2(i) + this->BoidRule3(i) + this->BoidRule4(i);
-		this->limitBoidSpeed(i);
+		this->limitBoidSpeed(&vel, i);
 		loc += vel * deltaTime;
 
 		this->BoidArr[i]->SetActorLocation(loc);
 		this->BoidArr[i]->velocity = vel;
 		
+		GEngine->AddOnScreenDebugMessage(0, 3.0f, FColor::Green, FString::Printf(TEXT("%f"), this->BoidArr[i]->velocity.Length()));
 		//GEngine->AddOnScreenDebugMessage(0, 3.0f, FColor::Green, FString::Printf(TEXT("%f"), deltaTime));
 		//UE_LOG(LogTemp, Log, TEXT("%s"), *this->BoidArr[i]->GetActorLocation().ToCompactString());
 		//UE_LOG(LogTemp, Log, TEXT("%s"), *this->BoidArr[i]->velocity.ToCompactString());
@@ -144,16 +145,30 @@ FVector ABoidController::BoidRule4(int boidIndex) {
 	if (boidPos.Z < this->minBound.Z) { boidDisplacement.Z = boidBoundDiscouragement; }
 	else if (boidPos.Z > this->maxBound.Z) { boidDisplacement.Z = -boidBoundDiscouragement; }
 
+	// had experimented with something like this, but I'm not sure it works phenomnenally well
+	//if (boidPos.X < this->minBound.X) { boidDisplacement.X = (this->minBound.X - boidPos.X) / boidBoundDiscouragement; }
+	//else if (boidPos.X > this->maxBound.X) { boidDisplacement.X = (boidPos.X - this->maxBound.X) / -boidBoundDiscouragement; }
+
+	//if (boidPos.Y < this->minBound.Y) { boidDisplacement.Y = (this->minBound.Y - boidPos.Y) / boidBoundDiscouragement; }
+	//else if (boidPos.Y > this->maxBound.Y) { boidDisplacement.Y = (boidPos.Y - this->maxBound.Y) / -boidBoundDiscouragement; }
+
+	//if (boidPos.Z < this->minBound.Z) { boidDisplacement.Z = (this->minBound.Z - boidPos.Z) / boidBoundDiscouragement; }
+	//else if (boidPos.Z > this->maxBound.Z) { boidDisplacement.Z = (boidPos.Z - this->maxBound.Z) / -boidBoundDiscouragement; }
+
+
+
 	return boidDisplacement;
 }
 
 // limit speed
-FVector ABoidController::limitBoidSpeed(int boidIndex) {
-	FVector boidVel = this->BoidArr[boidIndex]->velocity; 
+FVector ABoidController::limitBoidSpeed(FVector* vel, int boidIndex) {
+	FVector boidVel = *vel; 
 
-	if (boidVel.SquaredLength() > FMath::Pow(this->boidMaxSpeed, 2)) {
+	if (boidVel.Length() > this->boidMaxSpeed) {
 		boidVel = (boidVel / boidVel.Length()) * this->boidMaxSpeed;
 	}
 	
+	*vel = boidVel;
+
 	return boidVel;
 }

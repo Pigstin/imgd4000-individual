@@ -18,6 +18,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, Category = "Boid Values")
 	FVector velocity;
 
 

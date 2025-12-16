@@ -56,6 +56,6 @@ private:
 	FVector BoidRule2(int boidIndex);
 	FVector BoidRule3(int boidIndex);
 	FVector BoidRule4(int boidIndex);
-	FVector limitBoidSpeed(int boidIndex);
+	FVector limitBoidSpeed(FVector* vel, int boidIndex);
 
 };
