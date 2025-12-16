@@ -45,6 +45,8 @@ void ASphereController::Move(const FInputActionValue& InputActionValue)
 	if (ASpherePawn* ControlPawn = GetPawn<ASpherePawn>())
 	{
 		//GEngine->AddOnScreenDebugMessage(0, 3.0f, FColor::Green, FString(ControlPawn->GetName()));
+		GEngine->AddOnScreenDebugMessage(0, 3.0f, FColor::Green, FString(InputActionValue.Get<FVector3d>().ToString()));
+
 		ControlPawn->Move(InputActionValue);
 	}
 }
