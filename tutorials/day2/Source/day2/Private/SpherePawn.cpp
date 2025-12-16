@@ -60,7 +60,7 @@ void ASpherePawn::Move(const FInputActionValue& InputActionValue)
 
 	//Move the character
 	//GEngine->AddOnScreenDebugMessage(0, 3.0f, FColor::Green, FString(Mesh->GetName()));
-	//GEngine->AddOnScreenDebugMessage(0, 3.0f, FColor::Green, FString(InputAxisVector.ToString()));
+	GEngine->AddOnScreenDebugMessage(0, 3.0f, FColor::Green, FString(InputAxisVector.ToString()));
 	//GEngine->AddOnScreenDebugMessage(0, 3.0f, FColor::Green, FString(InputActionValue.Get<FVector3d>().ToString()));
 
 	if (Mesh)
